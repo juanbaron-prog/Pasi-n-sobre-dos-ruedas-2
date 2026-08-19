@@ -1,0 +1,185 @@
+/* ===================================================
+   1. PALETA DE COLORES (REGLA 60 - 20 - 20)
+   =================================================== */
+:root {
+    /* 60% DOMINANTE: Fondo oscuro para la capa del video */
+    --bg-dominante: #12161a;
+
+    /* 20% SECUNDARIO: Tarjetas en blanco limpio */
+    --bg-secundario: #ffffff;
+    --texto-tarjeta: #212529;
+
+    /* 20% ACENTO: Azul eléctrico para títulos y botones */
+    --color-acento: #0d6efd;
+    --color-acento-hover: #0b5ed7;
+}
+
+/* ===================================================
+   2. ESTILOS PARA VIDEO DE FONDO FIJO
+   =================================================== */
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    /* Lo posiciona al fondo de todo */
+    overflow: hidden;
+}
+
+.video-background video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Cubre toda la pantalla sin deformarse */
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(18, 22, 26, 0.75);
+    /* Filtro oscuro para legibilidad */
+    z-index: 1;
+}
+
+html,
+body {
+    background-color: transparent !important;
+    min-height: 100vh;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+/* ===================================================
+   3. TÍTULOS Y TARJETAS
+   =================================================== */
+h1.titulo-principal {
+    color: var(--color-acento) !important;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.9);
+}
+
+.title-shadow {
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.card-custom {
+    background-color: var(--bg-secundario) !important;
+    color: var(--texto-tarjeta) !important;
+    border: none !important;
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-custom:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0.8rem 1.8rem rgba(0, 0, 0, 0.5) !important;
+}
+
+/* ===================================================
+   4. IMÁGENES Y EFECTOS
+   =================================================== */
+.img-container {
+    overflow: hidden;
+    border-radius: 12px;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.zoom-effect {
+    transition: transform 0.4s ease;
+}
+
+.img-container:hover .zoom-effect {
+    transform: scale(1.05);
+}
+
+.custom-carousel-img {
+    height: 280px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.custom-card-img {
+    max-height: 320px;
+    width: 100%;
+    object-fit: contain;
+    /* Para que la moto no se recorte */
+    object-position: center;
+}
+
+/* ===================================================
+   5. BOTONES Y DETALLES DE ACENTO
+   =================================================== */
+.border-top-accent {
+    border-top: 4px solid var(--color-acento) !important;
+}
+
+.btn-primary {
+    background-color: var(--color-acento) !important;
+    border-color: var(--color-acento) !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-acento-hover) !important;
+}
+
+/* ===================================================
+   6. ANIMACIONES CSS (@KEYFRAMES)
+   =================================================== */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-down {
+    animation: fadeInDown 1s ease-out forwards;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(13, 110, 253, 0.5);
+    }
+
+    70% {
+        box-shadow: 0 0 0 12px rgba(13, 110, 253, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(13, 110, 253, 0);
+    }
+}
+
+.pulse-btn:hover {
+    animation: pulse 1.2s infinite;
+}
+
+/* ===================================================
+   7. ANIMACIÓN EN INPUTS (:FOCUS)
+   =================================================== */
+.form-control {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.form-control:focus {
+    transform: translateY(-3px) scale(1.01);
+    border-color: var(--color-acento) !important;
+    box-shadow: 0 8px 15px rgba(13, 110, 253, 0.3) !important;
+    background-color: #ffffff !important;
+}
+
+.form-control:hover:not(:focus) {
+    border-color: #adb5bd;
+    transform: translateY(-1px);
+}

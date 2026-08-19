@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pasión Motera & Ciclomotor</title>
+
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    /* ===================================================
+       1. REGLA DE COLOR 60% - 20% - 20%
+       60% -> FONDO CAPA Y VIDEO (DOMINANTE)
+       20% -> TARJETAS Y CONTENEDORES BLANCOS (SECUNDARIO)
+       20% -> AZUL PARA TÍTULOS Y BOTONES (ACENTO)
+       =================================================== */
+
+    /* CONTENEDOR DEL VIDEO FIJO AL FONDO */
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -100;
+      /* Fondo absoluto */
+      overflow: hidden;
+      pointer-events: none;
+      /* Los clics atraviesan el video */
+    }
+
+    .video-background video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* CAPA OSCURA SEMITRANSPARENTE SOBRE EL VIDEO */
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(18, 22, 26, 0.75);
+      z-index: -99;
+    }
+
+    /* TRANSPARENCIA BASE Y ELEVACIÓN DEL CONTENIDO */
+    html,
+    body {
+      background-color: transparent !important;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav,
+    main,
+    footer {
+      position: relative;
+      z-index: 10;
+      /* Todo el contenido queda encima del video */
+    }
+
+    /* 20% ACENTO: TÍTULO PRINCIPAL EN AZUL */
+    h1.titulo-principal {
+      color: #0d6efd !important;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.9);
+    }
+
+    .title-shadow {
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+    }
+
+    /* 20% SECUNDARIO: TARJETAS EN BLANCO LIMPIO */
+    .card-custom {
+      background-color: #ffffff !important;
+      color: #212529 !important;
+      border: none !important;
+      border-radius: 12px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* EFECTO HOVER EN TARJETAS (TRANSFORM) */
+    .card-custom:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 0.8rem 1.8rem rgba(0, 0, 0, 0.5) !important;
+    }
+
+    /* EFECTO HOVER ZOOM EN IMAGEN (TRANSFORM) */
+    .img-container {
+      overflow: hidden;
+      border-radius: 12px;
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    .zoom-effect {
+      transition: transform 0.4s ease;
+    }
+
+    .img-container:hover .zoom-effect {
+      transform: scale(1.05);
+    }
+
+    /* AJUSTES DE IMÁGENES DE CARRUSEL */
+    .custom-carousel-img {
+      height: 280px;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* IMAGEN DESTACADA COMPLETA SIN RECORTE */
+    .custom-card-img {
+      max-height: 320px;
+      width: 100%;
+      object-fit: contain;
+      object-position: center;
+    }
+
+    /* DETALLES DE ACENTO */
+    .border-top-accent {
+      border-top: 4px solid #0d6efd !important;
+    }
+
+    .btn-primary {
+      background-color: #0d6efd !important;
+      border-color: #0d6efd !important;
+    }
+
+    .btn-primary:hover {
+      background-color: #0b5ed7 !important;
+    }
+
+    /* ANIMACIONES CSS (@KEYFRAMES) */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in-down {
+      animation: fadeInDown 1s ease-out forwards;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(13, 110, 253, 0.5);
+      }
+
+      70% {
+        box-shadow: 0 0 0 12px rgba(13, 110, 253, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(13, 110, 253, 0);
+      }
+    }
+
+    .pulse-btn:hover {
+      animation: pulse 1.2s infinite;
+    }
+
+    /* ANIMACIÓN EN CAJAS DE TEXTO (INPUTS :FOCUS) */
+    .form-control {
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .form-control:focus {
+      transform: translateY(-3px) scale(1.01);
+      border-color: #0d6efd !important;
+      box-shadow: 0 8px 15px rgba(13, 110, 253, 0.3) !important;
+      background-color: #ffffff !important;
+    }
+
+    .form-control:hover:not(:focus) {
+      border-color: #adb5bd;
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- CONTENEDOR DEL VIDEO DE FONDO -->
+  <div class="video-background">
+    <div class="video-overlay"></div>
+    <video autoplay muted loop playsinline>
+      <source src="img/videofondo.mov" type="video/mp4">
+      Tu navegador no soporta el formato de video.
+    </video>
+  </div>
+
+  <!-- 1. NAVBAR / MENÚ DE NAVEGACIÓN -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold text-uppercase tracking-wide" href="#inicio">
+        🏍️ Pasión Motera
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#inicio">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#motos">Galería</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#registro">Comunidad</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#mantenimiento">Mantenimiento</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- CONTENEDOR PRINCIPAL -->
+  <main class="container my-5">
+
+    <!-- SECCIÓN 1: INICIO Y ENCABEZADO -->
+    <header id="inicio" class="row mb-5 text-center fade-in-down">
+      <div class="col-12">
+        <h1 class="display-4 fw-bold text-uppercase titulo-principal">
+          Pasión sobre dos Ruedas
+        </h1>
+        <p class="fs-5 text-light opacity-90">
+          Toda la cultura, potencia y libertad del mundo de las motocicletas en un solo lugar.
+        </p>
+      </div>
+    </header>
+
+    <!-- SECCIÓN 2: MOTOS, GALERÍA Y REGISTRO -->
+    <section id="motos" class="row g-4 mb-5 align-items-stretch">
+
+      <!-- Columna 1: Información -->
+      <div class="col-lg-4 col-md-6">
+        <article class="p-4 card-custom shadow h-100 border-top-accent">
+          <h2 class="h4 fw-bold mb-3 text-primary">Estilo de Vida Motero</h2>
+          <p class="small mb-0 text-secondary">
+            Manejar una motocicleta va más allá del transporte: es rodar con libertad, sentir la ruta y formar parte de
+            una gran comunidad. Ya sea una moto deportiva, naked o custom, cada modelo ofrece una experiencia única en
+            carretera.
+          </p>
+        </article>
+      </div>
+
+      <!-- Columna 2: Carrusel Bootstrap -->
+      <div class="col-lg-4 col-md-6">
+        <div id="carousel-1" class="carousel slide shadow rounded-3 overflow-hidden h-100 custom-carousel"
+          data-bs-ride="carousel">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carousel-1" data-bs-slide-to="0" class="active" aria-current="true"
+              aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carousel-1" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carousel-1" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          </div>
+          <div class="carousel-inner h-100">
+            <div class="carousel-item active h-100">
+              <img class="d-block w-100 custom-carousel-img" src="img//moto1.webp" alt="Moto Deportiva en Pista">
+            </div>
+            <div class="carousel-item h-100">
+              <img class="d-block w-100 custom-carousel-img" src="img/moto2.jpg" alt="Moto Naked Urbana">
+            </div>
+            <div class="carousel-item h-100">
+              <img class="d-block w-100 custom-carousel-img" src="img/moto3.jpg" alt="Ruta Motera">
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carousel-1" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carousel-1" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Columna 3: Formulario -->
+      <div class="col-lg-4 col-md-12" id="registro">
+        <form action="#" class="card p-4 card-custom shadow border-0 h-100">
+          <h2 class="h5 fw-bold mb-3 text-dark">Únete a la Rodada</h2>
+          <div class="mb-3">
+            <label class="form-label small font-semibold" for="formEmail">Correo Electrónico *</label>
+            <input class="form-control" type="email" placeholder="motero@ejemplo.com" id="formEmail" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label small font-semibold" for="formPassword">Contraseña *</label>
+            <input class="form-control" type="password" placeholder="Mínimo 6 caracteres" id="formPassword"
+              minlength="6" autocomplete="new-password" required>
+          </div>
+          <button class="btn btn-primary w-100 fw-bold mt-auto pulse-btn" type="submit">Registrarme</button>
+        </form>
+      </div>
+
+    </section>
+
+    <!-- SECCIÓN DE EXHIBICIÓN -->
+    <section class="row g-4 mb-5 align-items-center">
+      <div class="col-md-6">
+        <div class="rounded-3 overflow-hidden shadow img-container text-center">
+          <img class="img-fluid w-100 custom-card-img zoom-effect" src="img/moto.jpg" alt="Moto de Exhibición">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card card-custom shadow border-0">
+          <div class="card-header bg-dark text-white fw-bold">Moto Destacada</div>
+          <div class="card-body">
+            <h2 class="h5 card-title fw-bold text-primary">Superdeportivas de Cilindrada Alta</h2>
+            <p class="card-text text-secondary">
+              Diseñadas para la pista y la calle. Cuentan con chasís ultraligeros, frenos ABS de doble disco y sistemas
+              de control de tracción para mayor seguridad a altas velocidades.
+            </p>
+          </div>
+          <div class="card-footer bg-transparent text-muted small">Edición Especial 2026</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 3: MANTENIMIENTO Y RUTA -->
+    <section id="mantenimiento">
+      <div class="row mb-4">
+        <div class="col-12 text-center">
+          <h2 class="fw-bold text-white border-bottom pb-2 title-shadow">
+            Consejos Esenciales para Tu Moto
+          </h2>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <article class="p-4 card-custom shadow h-100">
+            <h3 class="h5 fw-bold text-primary mb-2">Mantenimiento del Motor</h3>
+            <p class="small mb-0 text-secondary">
+              Revisa periódicamente el nivel y estado del aceite. Un cambio a tiempo garantiza la vida útil del motor y
+              evita el desgaste prematuro.
+            </p>
+          </article>
+        </div>
+        <div class="col-md-4">
+          <article class="p-4 card-custom shadow h-100">
+            <h3 class="h5 fw-bold text-primary mb-2">Presión de Neumáticos</h3>
+            <p class="small mb-0 text-secondary">
+              Mantener las llantas con la calibración adecuada mejora el agarre en curva, disminuye el consumo de
+              combustible y evita pinchazos.
+            </p>
+          </article>
+        </div>
+        <div class="col-md-4">
+          <article class="p-4 card-custom shadow h-100">
+            <h3 class="h5 fw-bold text-primary mb-2">Cadena y Kit de Arrastre</h3>
+            <p class="small mb-0 text-secondary">
+              Limpia, tensiona y lubrica la cadena constantemente para tener una transmisión de potencia suave y sin
+              tirones al acelerar.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER O PIE DE PÁGINA -->
+  <footer class="bg-dark text-white pt-4 pb-3 border-top border-secondary">
+    <div class="container text-center text-md-start">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <h2 class="h5 fw-bold text-uppercase">Pasión Motera</h2>
+          <p class="small text-muted">Comunidad dedicada a los amantes de las motocicletas, rutas y la cultura sobre dos
+            ruedas.</p>
+        </div>
+        <div class="col-md-6 mb-3 text-md-end">
+          <h3 class="h6 fw-bold">Contacto & Redes</h3>
+          <p class="small text-muted mb-1">Email: contacto@pasionmotera.com</p>
+          <p class="small text-muted">© 2026 Todos los derechos reservados.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
